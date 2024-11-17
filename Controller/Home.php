@@ -8,6 +8,6 @@ class Home
 {
     public function index()
     {
-        View::make('test');
+        View::make('test', ['title' => 'test', 'something' => 'testSomething']);
     }
 }

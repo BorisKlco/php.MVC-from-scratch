@@ -26,7 +26,7 @@ class Router
     {
         echo '<pre>';
         var_dump($this->routes);
-        die();
+        exit();
     }
 
     public function resolve(string $uri, string $method): void

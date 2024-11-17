@@ -13,6 +13,7 @@ class View
     {
         $response = new self($view, $params);
         echo $response->render();
+        exit();
     }
 
     public static function NotFound(): void
@@ -33,6 +34,7 @@ class View
 
     protected function render(): void
     {
+        extract($this->params);
         $title = $this->params['title'] ?? "Default";
         $slot = VIEWS_PATH . "{$this->view}.php";
         if (!file_exists($slot)) {
