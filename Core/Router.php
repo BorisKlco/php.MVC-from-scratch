@@ -14,7 +14,8 @@ class Router
             'method' => $method,
             'path' => $route,
             'action' => $action,
-            'middleware' => null
+            'middleware' => null,
+            'routeName' => ''
         ];
         return $this;
     }
@@ -22,6 +23,12 @@ class Router
     public function only(string $middleware): self
     {
         $this->routes[array_key_last($this->routes)]['middleware'] = $middleware;
+        return $this;
+    }
+
+    public function name(string $routeName): self
+    {
+        $this->routes[array_key_last($this->routes)]['routeName'] = $routeName;
         return $this;
     }
 
