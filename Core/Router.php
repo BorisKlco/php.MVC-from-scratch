@@ -6,12 +6,10 @@ use Middleware\Middlewares;
 
 class Router
 {
-    protected array $routes;
+    public array $routes;
 
-    private function register(string $method, string $route, callable|array $action): self
+    public function register(string $method, string $route, callable|array $action): self
     {
-        // $this->routes[$method][$route] = $action;
-        // $this->routes[$method][$route]['middleware'] = null;
         $this->routes[] = [
             'method' => $method,
             'path' => $route,
@@ -21,27 +19,10 @@ class Router
         return $this;
     }
 
-    public function get(string $route, callable|array $action): self
-    {
-        return $this->register('GET', $route, $action);
-    }
-
-    public function post(string $route, callable|array $action): self
-    {
-        return $this->register('POST', $route, $action);
-    }
-
     public function only(string $middleware): self
     {
         $this->routes[array_key_last($this->routes)]['middleware'] = $middleware;
         return $this;
-    }
-
-    public function list(): void
-    {
-        echo '<pre>';
-        var_dump($this->routes);
-        exit();
     }
 
     public function resolve(string $uri, string $method): void
@@ -64,7 +45,7 @@ class Router
         if ($middleware) {
             $class = Middlewares::MAP[$middleware] ?? null;
             if ($class) {
-                (new $class)->hande();
+                (new $class)->handle();
             } else {
                 View::NotFound("Middleware '{$middleware}' is missing.");
             }
@@ -78,5 +59,6 @@ class Router
         [$class, $fn] = $action;
         $controller = new $class();
         call_user_func([$controller, $fn]);
+        exit();
     }
 }

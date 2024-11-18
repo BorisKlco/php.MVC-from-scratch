@@ -18,14 +18,15 @@ class View
 
     public static function DBException(array $e): void
     {
-        $error = new self('error/db', $e);
+        $error = new self('error/error', $e);
         http_response_code(500);
         echo $error->render();
         exit();
     }
+
     public static function NotFound(string $errorBody = 'Page not found.'): void
     {
-        $info = ['title' => 'Page not found', 'msg' => $errorBody];
+        $info = ['title' => 'Page not found', 'error' => $errorBody];
         $error = new self('error/error', $info);
         http_response_code(404);
         echo $error->render();
@@ -36,7 +37,7 @@ class View
     {
         $info = [
             'title' => 'Access to the requested resource is forbidden',
-            'msg' => 'Access to the requested resource is forbidden.'
+            'error' => 'Access to the requested resource is forbidden.'
         ];
         $error = new self('error/error', $info);
         http_response_code(403);
