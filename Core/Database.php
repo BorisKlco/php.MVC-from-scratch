@@ -3,6 +3,7 @@
 namespace Core;
 
 use PDO;
+use PDOStatement;
 
 class Database
 {
@@ -23,7 +24,7 @@ class Database
         return self::$db;
     }
 
-    public static function query(string $query, array $params = [])
+    public static function query(string $query, array $params = []): PDOStatement
     {
         try {
             $db = self::$db;

@@ -23,9 +23,10 @@ class View
         echo $error->render();
         exit();
     }
-    public static function NotFound(): void
+    public static function NotFound(string $errorBody = 'Page not found.'): void
     {
-        $error = new self('error/404', ['title' => 'Page not found']);
+        $info = ['title' => 'Page not found', 'msg' => $errorBody];
+        $error = new self('error/error', $info);
         http_response_code(404);
         echo $error->render();
         exit();
@@ -33,7 +34,11 @@ class View
 
     public static function Forbidden(): void
     {
-        $error = new self('error/403', ['title' => 'Access to the requested resource is forbidden']);
+        $info = [
+            'title' => 'Access to the requested resource is forbidden',
+            'msg' => 'Access to the requested resource is forbidden.'
+        ];
+        $error = new self('error/error', $info);
         http_response_code(403);
         echo $error->render();
         exit();
@@ -45,7 +50,7 @@ class View
         $title = $this->params['title'] ?? "Default";
         $slot = VIEWS_PATH . "{$this->view}.php";
         if (!file_exists($slot)) {
-            self::NotFound();
+            self::NotFound('View not found');
         }
         $layout = VIEWS_PATH . "layout.php";
         include $layout;
