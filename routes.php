@@ -7,14 +7,16 @@ use Core\View;
 
 App::get('/', [Home::class, 'index'])
     ->name('home');
-App::post('/users', function () {
-    $users = Database::query('SELECT * FROM users')->fetchAll();
+
+App::post('/user', function () {
+    $id = request()->get('id');
+    $user = Database::query('SELECT * FROM users WHERE id = ?', [$id])->fetchAll();
     View::show('users', [
-        'title' => 'Users',
-        'data' => $users
+        'title' => 'User',
+        'data' => $user
     ]);
-})->only('Auth')
-    ->name('users');
+})->only('auth')
+    ->name('user');
 
 App::get('/123', [Home::class, 'index']);
 App::get('/22', [Home::class, 'index']);
