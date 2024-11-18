@@ -9,13 +9,20 @@ class View
         protected array $params = []
     ) {}
 
-    public static function make(string $view, array $params = []): void
+    public static function show(string $view, array $params = []): void
     {
         $response = new self($view, $params);
         echo $response->render();
         exit();
     }
 
+    public static function DBException(array $e): void
+    {
+        $error = new self('error/db', $e);
+        http_response_code(500);
+        echo $error->render();
+        exit();
+    }
     public static function NotFound(): void
     {
         $error = new self('error/404', ['title' => 'Page not found']);

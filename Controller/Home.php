@@ -2,12 +2,13 @@
 
 namespace Controller;
 
+use Core\Database;
 use Core\View;
 
 class Home
 {
     public function index()
     {
-        View::make('test', ['title' => 'test', 'something' => 'testSomething']);
+        View::show('test', ['title' => 'test', 'something' => 'testSomething']);
     }
 }

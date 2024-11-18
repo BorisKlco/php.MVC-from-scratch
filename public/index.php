@@ -1,6 +1,7 @@
 <?php
 
 use Core\Router;
+use Core\Database;
 use Controller\Home;
 
 const BASE_PATH = __DIR__ . "/../";
@@ -13,6 +14,7 @@ spl_autoload_register(function ($class) {
 });
 
 $route = new Router();
+$db = new Database();
 
 //Routes
 $route->get('/', [Home::class, 'index']);
