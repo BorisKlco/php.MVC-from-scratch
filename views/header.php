@@ -33,7 +33,7 @@
                 </div>
                 <div class="ml-4 flex items-center gap-4 text-white">
                     <?php if (logged()) : ?>
-                        <form action="/logout" method="POST">
+                        <form action="<?= getRoute('logout') ?>" method="POST">
                             <button type="submit" class="text-gray-300 hover:text-white">
                                 Log out
                             </button>

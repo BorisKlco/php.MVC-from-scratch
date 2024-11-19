@@ -1,5 +1,6 @@
 <?php
 
+use Core\App;
 use Helper\Request;
 
 function request()
@@ -17,13 +18,21 @@ function dd(...$args)
     exit();
 }
 
+function getRoute(string $name): string
+{
+    return App::getRoute($name);
+}
+
 function logged()
 {
     return $_SESSION['user'] ?? false;
 }
 
-function redirect(string $path)
+function redirect(string $path, string $setUserSession = null)
 {
+    if ($setUserSession) {
+        $_SESSION['user'] = $setUserSession;
+    }
     header("Location: {$path}");
     exit();
 }

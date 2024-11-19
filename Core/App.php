@@ -44,6 +44,18 @@ class App
         return false;
     }
 
+    public static function getRoute(string $name): string
+    {
+        $routes = self::$router->routes;
+        foreach ($routes as $route) {
+            if ($route['routeName'] == $name) {
+                return $route['path'];
+            }
+        }
+
+        return 'RouteNameNotFound';
+    }
+
     public static function list(): void
     {
         $routes = self::$router->routes;

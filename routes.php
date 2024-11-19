@@ -39,8 +39,14 @@ App::get('/login', [User::class, 'login'])
 App::get('/register', [User::class, 'register'])
     ->only('guest');
 
+App::post('/login', [User::class, 'auth'])
+    ->name('post-login')
+    ->only('guest');
+
 App::post('/register', [User::class, 'create'])
+    ->name('post-register')
     ->only('guest');
 
 App::post('/logout', [User::class, 'destroy'])
+    ->name('logout')
     ->only('auth');

@@ -52,12 +52,12 @@ class View
         exit();
     }
 
-    protected function render(bool $error = false): void
+    protected function render(bool $exception = false): void
     {
         extract($this->params);
         $title = $this->params['title'] ?? "Default";
         $slot = VIEWS_PATH . "{$this->view}.php";
-        if (!$error) {
+        if (!$exception) {
             if (!file_exists($slot)) {
                 self::NotFound('View not found');
             }
