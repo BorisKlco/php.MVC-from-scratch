@@ -9,6 +9,6 @@ class Home
 {
     public function index()
     {
-        View::show('test', ['title' => 'test', 'something' => 'testSomething']);
+        View::show('home/index');
     }
 }

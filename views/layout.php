@@ -12,9 +12,13 @@
     <?php
     if (file_exists(VIEWS_PATH . 'header.php')) {
         include VIEWS_PATH . 'header.php';
-    }
-    include $slot;
-    ?>
+    } ?>
+    <main>
+        <div class="mx-auto max-w-4xl px-4 py-6">
+            <?php include $slot; ?>
+        </div>
+    </main>
+
 </body>
 
 </html>
