@@ -6,13 +6,15 @@ use Core\App;
 
 class Request
 {
+
     public function __construct(
         protected array $data
     ) {}
 
     public function isRoute($name): bool
     {
-        return App::isRoute($name);
+        $path = parse_url($_SERVER['REQUEST_URI'])['path'];
+        return App::isRoute($path, $name);
     }
 
     public function has($key): bool
@@ -23,7 +25,7 @@ class Request
     public function get($key): string
     {
         if (isset($this->data[$key])) {
-            return $this->data[$key];
+            return htmlspecialchars(trim($this->data[$key]));
         }
 
         return '';

@@ -12,7 +12,6 @@ spl_autoload_register(function ($class) {
 });
 
 new App();
-
 //Resolve user request.
 session_start();
 App::resolve($_SERVER['REQUEST_URI'], $_SERVER['REQUEST_METHOD']);

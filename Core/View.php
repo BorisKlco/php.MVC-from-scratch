@@ -18,42 +18,53 @@ class View
 
     public static function DBException(array $e): void
     {
-        $error = new self('error/error', $e);
         http_response_code(500);
-        echo $error->render();
+        $e['code'] = http_response_code();
+        $error = new self('error/error', $e);
+        echo $error->render(true);
         exit();
     }
 
     public static function NotFound(string $errorBody = 'Page not found.'): void
     {
-        $info = ['title' => 'Page not found', 'error' => $errorBody];
-        $error = new self('error/error', $info);
+
         http_response_code(404);
-        echo $error->render();
+        $info = [
+            'title' => 'Not found',
+            'error' => $errorBody,
+            'code' => http_response_code(),
+        ];
+        $error = new self('error/error', $info);
+        echo $error->render(true);
         exit();
     }
 
     public static function Forbidden(): void
     {
+        http_response_code(403);
         $info = [
-            'title' => 'Access to the requested resource is forbidden',
-            'error' => 'Access to the requested resource is forbidden.'
+            'title' => 'Forbidden',
+            'error' => 'Access to the requested resource is forbidden.',
+            'code' => http_response_code()
         ];
         $error = new self('error/error', $info);
-        http_response_code(403);
-        echo $error->render();
+        echo $error->render(true);
         exit();
     }
 
-    protected function render(): void
+    protected function render(bool $error = false): void
     {
         extract($this->params);
         $title = $this->params['title'] ?? "Default";
         $slot = VIEWS_PATH . "{$this->view}.php";
-        if (!file_exists($slot)) {
-            self::NotFound('View not found');
+        if (!$error) {
+            if (!file_exists($slot)) {
+                self::NotFound('View not found');
+            }
+            $layout = VIEWS_PATH . "layout.php";
+            include $layout;
+            exit();
         }
-        $layout = VIEWS_PATH . "layout.php";
-        include $layout;
+        include $slot;
     }
 }

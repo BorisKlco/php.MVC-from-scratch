@@ -33,11 +33,11 @@ class App
         return self::$router->register('POST', $route, $action);
     }
 
-    public static function isRoute(string $name): bool
+    public static function isRoute(string $path, string $name): bool
     {
         $routes = self::$router->routes;
         foreach ($routes as $route) {
-            if ($route['routeName'] == $name) {
+            if ($route['path'] == $path && $route['routeName'] == $name) {
                 return true;
             }
         }

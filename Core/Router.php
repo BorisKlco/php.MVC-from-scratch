@@ -64,8 +64,11 @@ class Router
         }
 
         [$class, $fn] = $action;
-        $controller = new $class();
-        call_user_func([$controller, $fn]);
-        exit();
+        if (class_exists($class) && method_exists($class, $fn)) {
+            $controller = new $class();
+            call_user_func([$controller, $fn]);
+            exit();
+        }
+        View::NotFound("Controller '{$class}' or method '{$fn}' is missing.");
     }
 }

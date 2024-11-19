@@ -1,23 +1,46 @@
 <?php
 
 use Controller\Home;
+use Controller\User;
+use Controller\Note;
 use Core\App;
-use Core\Database;
-use Core\View;
 
 App::get('/', [Home::class, 'index'])
-    ->name('home');
+    ->name('Dashboard');
 
-App::post('/user', function () {
-    $id = request()->get('id');
-    $user = Database::query('SELECT * FROM users WHERE id = ?', [$id])->fetchAll();
-    View::show('users', [
-        'title' => 'User',
-        'data' => $user
-    ]);
-})->only('auth')
-    ->name('user');
+//Note
+App::get('/notes', [Note::class, 'index'])
+    ->only('auth')
+    ->name('Notes');
 
-App::get('/123', [Home::class, 'index']);
-App::get('/22', [Home::class, 'index']);
-App::get('/33', [Home::class, 'index']);
+App::get('/note', [Note::class, 'show'])
+    ->only('auth');
+
+//Create a note
+App::get('/create', [Home::class, 'create'])
+    ->only('auth')
+    ->name('Create');
+
+App::post('/create', [Note::class, 'create'])
+    ->only('auth');
+
+//Archive a note
+App::get('/archive', [Home::class, 'archive'])
+    ->only('auth')
+    ->name('Archive');
+
+App::post('/archive', [Note::class, 'store'])
+    ->only('auth');
+
+//Auth section
+App::get('/login', [User::class, 'login'])
+    ->only('guest');
+
+App::get('/register', [User::class, 'register'])
+    ->only('guest');
+
+App::post('/register', [User::class, 'create'])
+    ->only('guest');
+
+App::post('/logout', [User::class, 'destroy'])
+    ->only('auth');

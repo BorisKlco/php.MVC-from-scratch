@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="h-full">
 
 <head>
     <meta charset="UTF-8">
@@ -8,8 +8,11 @@
     <title><?= $title ?></title>
 </head>
 
-<body>
+<body class="h-full">
     <?php
+    if (file_exists(VIEWS_PATH . 'header.php')) {
+        include VIEWS_PATH . 'header.php';
+    }
     include $slot;
     ?>
 </body>

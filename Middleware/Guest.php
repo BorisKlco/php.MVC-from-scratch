@@ -2,12 +2,12 @@
 
 namespace Middleware;
 
-class Auth
+class Guest
 {
     public function handle()
     {
-        if (!logged()) {
-            redirect('/login');
+        if (logged()) {
+            redirect('/');
         }
     }
 }
