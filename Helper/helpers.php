@@ -44,25 +44,24 @@ function generateCsrf(): string
 }
 
 /**
- * Verifies the CSRF token against the session token.
+ * Verifies the CSRF token. True or render Forbidden.
  *
  * This function checks if the provided token matches the CSRF token
  * stored in the session. If the tokens do not match, it renders
  * a "Forbidden" view and halts execution.
  *
  * @param string $token The CSRF token to verify.
- * @return bool True if the token is valid, false otherwise.
  */
 
-function verifyCsrf($token): bool
+function verifyCsrf($token): true|View
 {
     $verify = isset($_SESSION['csrf_token']) && hash_equals($_SESSION['csrf_token'], $token);
 
-    if (!$verify) {
-        View::Forbidden();
+    if ($verify) {
+        return $verify;
     }
 
-    return $verify;
+    View::Forbidden();
 }
 
 /**

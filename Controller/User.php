@@ -24,14 +24,12 @@ class User
         $password = request()->get('password');
         $error = [];
 
-        $account = Database::query('SELECT email, password FROM users WHERE email = ?', [$email])->fetch();
-        if (!$account) {
-            $error['email'] = "Account doesn't exist.";
-            View::show('user/login', ['title' => 'Login Page', 'error' => $error]);
-        }
+        if (Validator::email($email)) {
+            $account = Database::query('SELECT email, password FROM users WHERE email = ?', [$email])->fetch();
 
-        if (password_verify($password, $account['password'])) {
-            redirect('/', $email);
+            if (password_verify($password, $account['password'])) {
+                redirect('/', $email);
+            }
         }
 
         $error['password'] = "Email or password is not correct.";
@@ -44,26 +42,25 @@ class User
         $password = request()->get('password');
         $error = Validator::registration($email, $password);
 
+        if ($error) {
+            View::show('user/register', ['title' => 'Register', 'error' => $error]);
+        }
 
-        if (!$error) {
-            $emailExist = Database::query('SELECT id FROM users WHERE email = ?', [$email])->fetch();
-            if ($emailExist) {
-                $error['email'] = 'Email address is already in use';
-                View::show('user/register', ['title' => 'Register', 'error' => $error]);
-            }
+        $emailExist = Database::query('SELECT id FROM users WHERE email = ?', [$email])->fetch();
+        if ($emailExist) {
+            $error['email'] = 'Email address is already in use';
+            View::show('user/register', ['title' => 'Register', 'error' => $error]);
+        }
 
-            $createAcc = Database::query("
+        $createAcc = Database::query("
             INSERT INTO users (email, password)
             VALUES (:email, :password);
             ", [
-                'email' => $email,
-                'password' => password_hash($password, PASSWORD_DEFAULT)
-            ]);
+            'email' => $email,
+            'password' => password_hash($password, PASSWORD_DEFAULT)
+        ]);
 
-            redirect('/', $email);
-        }
-
-        View::show('user/register', ['title' => 'Register', 'error' => $error]);
+        redirect('/', $email);
     }
 
     public function destroy()
