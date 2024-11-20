@@ -3,6 +3,7 @@
 use Controller\Home;
 use Controller\User;
 use Controller\Note;
+use Controller\Archive;
 use Core\App;
 
 App::get('/', [Home::class, 'index'])
@@ -17,19 +18,30 @@ App::get('/note', [Note::class, 'show'])
     ->only('auth');
 
 //Create a note
-App::get('/create', [Home::class, 'create'])
+App::get('/create', [Note::class, 'create'])
     ->only('auth')
     ->name('Create');
 
-App::post('/create', [Note::class, 'create'])
+App::post('/create', [Note::class, 'store'])
+    ->only('auth');
+
+//Edit a note
+App::get('/edit', [Note::class, 'edit'])
+    ->only('auth');
+
+App::post('/edit', [Note::class, 'update'])
+    ->only('auth');
+
+//Remove a note
+App::post('/remove', [Note::class, 'destroy'])
     ->only('auth');
 
 //Archive a note
-App::get('/archive', [Home::class, 'archive'])
+App::get('/archive', [Archive::class, 'index'])
     ->only('auth')
     ->name('Archive');
 
-App::post('/archive', [Note::class, 'store'])
+App::post('/archive', [Archive::class, 'store'])
     ->only('auth');
 
 //Auth section
