@@ -19,13 +19,23 @@ class Router
         ];
         return $this;
     }
-
+    /**
+     * Assigns a middleware to the last registered route.
+     *
+     * @param string $middleware The name of the middleware to be applied.
+     * @return self Returns the Router instance for method chaining.
+     */
     public function only(string $middleware): self
     {
         $this->routes[array_key_last($this->routes)]['middleware'] = $middleware;
         return $this;
     }
-
+    /**
+     * Assigns a name to the last registered route.
+     *
+     * @param string $routeName The name of the route.
+     * @return self Returns the Router instance for method chaining.
+     */
     public function name(string $routeName): self
     {
         $this->routes[array_key_last($this->routes)]['routeName'] = $routeName;

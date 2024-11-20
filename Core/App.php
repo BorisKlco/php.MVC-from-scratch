@@ -32,7 +32,13 @@ class App
     {
         return self::$router->register('POST', $route, $action);
     }
-
+    /**
+     * Checks if a specific path matches a named route.
+     *
+     * @param string $path The request path to check against.
+     * @param string $name The name of the route to compare with.
+     * @return bool Returns true if the path matches the named route, false otherwise.
+     */
     public static function isRoute(string $path, string $name): bool
     {
         $routes = self::$router->routes;
@@ -43,7 +49,12 @@ class App
         }
         return false;
     }
-
+    /**
+     * Retrieves the path for a named route.
+     *
+     * @param string $name The name of the route to retrieve the path for.
+     * @return string Returns the URL path for the specified route, or 'RouteNameNotFound' if not found.
+     */
     public static function getRoute(string $name): string
     {
         $routes = self::$router->routes;
@@ -55,7 +66,9 @@ class App
 
         return 'RouteNameNotFound';
     }
-
+    /**
+     * Lists all registered routes for debugging purposes.
+     */
     public static function list(): void
     {
         $routes = self::$router->routes;

@@ -23,7 +23,13 @@ class Database
     {
         return self::$db;
     }
-
+    /**
+     * Executes a SQL query with optional parameters and returns the prepared statement.
+     *
+     * @param string $query The SQL query to be executed.
+     * @param array $params An associative array of parameters to bind to the query (default is an empty array).
+     * @return PDOStatement Returns the prepared statement object.
+     */
     public static function query(string $query, array $params = []): PDOStatement
     {
         try {

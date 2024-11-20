@@ -57,13 +57,13 @@ class View
         extract($this->params);
         $title = $this->params['title'] ?? "Default";
         $slot = VIEWS_PATH . "{$this->view}.php";
+        // Exception 500,404,403 view doesn't use layout.
         if (!$exception) {
             if (!file_exists($slot)) {
                 self::NotFound('View not found');
             }
             $layout = VIEWS_PATH . "layout.php";
             include $layout;
-            exit();
         }
         include $slot;
     }
