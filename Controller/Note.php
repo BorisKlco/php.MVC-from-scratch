@@ -22,7 +22,10 @@ class Note
         View::show('note/create', ['title' => 'Create', 'something' => 'testSomething']);
     }
 
-    public function store() {}
+    public function store()
+    {
+        dd(request());
+    }
 
     public function edit()
     {

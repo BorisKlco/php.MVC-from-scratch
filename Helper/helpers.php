@@ -74,7 +74,7 @@ function getRoute(string $name): string
 }
 
 /**
- * Return bool of user login status
+ * Return session['user'] or false
  */
 function logged()
 {

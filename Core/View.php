@@ -54,17 +54,19 @@ class View
 
     protected function render(bool $exception = false): void
     {
-        extract($this->params);
         $title = $this->params['title'] ?? "Default";
         $slot = VIEWS_PATH . "{$this->view}.php";
-        // Exception 500,404,403 view doesn't use layout.
-        if (!$exception) {
-            if (!file_exists($slot)) {
-                self::NotFound('View not found');
-            }
-            $layout = VIEWS_PATH . "layout.php";
-            include $layout;
+        $layout = VIEWS_PATH . "layout.php";
+        extract($this->params);
+        // Views for exceptions 500,404,403 doesn't have layout.
+        if ($exception) {
+            $layout = $slot;
         }
-        include $slot;
+
+        if (file_exists($slot)) {
+            include $layout;
+        } else {
+            self::NotFound('View not found');
+        }
     }
 }

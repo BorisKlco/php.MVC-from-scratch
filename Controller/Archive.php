@@ -9,7 +9,7 @@ class Archive
 {
     public function index()
     {
-        View::show('archive/index', ['title' => 'Archive', 'something' => 'testSomething']);
+        View::show('note/index', ['title' => 'Archive', 'something' => 'testSomething']);
     }
 
     public function store() {}
