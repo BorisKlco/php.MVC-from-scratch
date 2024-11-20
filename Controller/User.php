@@ -18,19 +18,31 @@ class User
         View::show('user/register', ['title' => 'Register']);
     }
 
-    public function create()
+    public function auth()
     {
-        $error = [];
         $email = request()->get('email');
         $password = request()->get('password');
+        $error = [];
 
-        if (!Validator::email($email)) {
-            $error['email'] = 'Email is not valid.';
+        $account = Database::query('SELECT email, password FROM users WHERE email = ?', [$email])->fetch();
+        if (!$account) {
+            $error['email'] = "Account doesn't exist.";
+            View::show('user/login', ['title' => 'Login Page', 'error' => $error]);
         }
 
-        if (!Validator::string($password, 4, 21)) {
-            $error['password'] = 'Min 4 characters, max 21.';
+        if (password_verify($password, $account['password'])) {
+            redirect('/', $email);
         }
+
+        $error['password'] = "Email or password is not correct.";
+        View::show('user/login', ['title' => 'Login Page', 'error' => $error]);
+    }
+
+    public function create()
+    {
+        $email = request()->get('email');
+        $password = request()->get('password');
+        $error = Validator::registration($email, $password);
 
 
         if (!$error) {
