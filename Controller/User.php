@@ -66,6 +66,8 @@ class User
     public function destroy()
     {
         session_destroy();
+        $cookie = session_get_cookie_params();
+        setcookie('PHPSESSID', '', time() - 3600, $cookie['path'], $cookie['domain']);
         redirect('/');
     }
 }

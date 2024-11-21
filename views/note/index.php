@@ -7,20 +7,30 @@
                         <p class="text-sm font-semibold leading-6 text-gray-900 group-hover:underline"><?= $note['title'] ?></p>
                     </div>
                     <div class="mt-1 flex items-center gap-x-2 text-xs leading-5 text-gray-500">
-                        <p class="whitespace-nowrap"><time datetime="<?= $note['created_at'] ?>"><?= $note['created_at'] ?></time></p>
+                        <p class="whitespace-nowrap"><time datetime="<?= $note['created_at'] ?>"><?= formatDate($note['created_at']) ?></time></p>
                     </div>
                 </div>
             </a>
             <div class="flex flex-none items-center gap-x-4">
-                <a href="#" class="rounded-md bg-white px-2.5 py-1.5 
+                <a href="<?= getRoute('Edit') . '?id=' . $note['link'] ?>" class="rounded-md bg-white px-2.5 py-1.5 
             text-sm font-semibold text-gray-900 shadow-sm 
             ring-1 ring-inset ring-gray-300 hover:bg-gray-50 block">Edit</a>
-                <a href="#" class="hidden rounded-md bg-white px-2.5 py-1.5 
-            text-sm font-semibold text-gray-900 shadow-sm 
-            ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:block">Delete</a>
-                <a href="#" class="hidden rounded-md bg-white px-2.5 py-1.5 
-            text-sm font-semibold text-gray-900 shadow-sm 
-            ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:block">Archive</a>
+                <form action="<?= getRoute('Remove') ?>" method="POST" onsubmit="return confirm('Are you sure you want to delete this note?');">
+                    <?= csrf() ?>
+                    <button type="submit" name="id" value="<?= $note['link'] ?>"
+                        class="hidden rounded-md bg-white px-2.5 py-1.5 
+                text-sm font-semibold text-gray-900 shadow-sm 
+                ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:block">Delete</button>
+                </form>
+                <?php if (!$note['archived']) : ?>
+                    <form action="<?= getRoute('Archive') ?>" method="POST">
+                        <?= csrf() ?>
+                        <button type="submit" name="id" value="<?= $note['link'] ?>"
+                            class="hidden rounded-md bg-white px-2.5 py-1.5 
+                text-sm font-semibold text-gray-900 shadow-sm 
+                ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:block">Archive</button>
+                    </form>
+                <?php endif ?>
             </div>
         </li>
     </ul>

@@ -30,10 +30,12 @@ App::get('/edit', [Note::class, 'edit'])
     ->only('auth');
 
 App::post('/edit', [Note::class, 'update'])
+    ->name('Edit')
     ->only('auth');
 
 //Remove a note
 App::post('/remove', [Note::class, 'destroy'])
+    ->name('Remove')
     ->only('auth');
 
 //Archive a note

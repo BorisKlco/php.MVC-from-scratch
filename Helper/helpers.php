@@ -65,6 +65,18 @@ function verifyCsrf($token): true|View
 }
 
 /**
+ * Formats a given datetime string into the format "DD, Nov., YYYY, HH:MM:SS".
+ *
+ * @param string $datetime The datetime string to format (e.g., "2024-11-21 08:44:58").
+ * @return string The formatted datetime string.
+ */
+function formatDate(string $datetime): string
+{
+    $date = new DateTime($datetime);
+    return $date->format('d. M. Y, H:i:s');
+}
+
+/**
  * Return string value of path for named route.
  */
 function getRoute(string $name): string
@@ -94,6 +106,8 @@ function redirect(string $path, string $setUserSession = null)
 {
     if ($setUserSession) {
         $_SESSION['user'] = $setUserSession;
+
+        session_regenerate_id(true);
     }
     header("Location: {$path}");
     exit();
