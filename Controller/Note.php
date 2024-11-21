@@ -117,6 +117,7 @@ class Note
                 UPDATE notes 
                 SET title = :title, 
                     note = :note, 
+                    archived = 0,
                     created_at = CURRENT_TIMESTAMP 
                 WHERE link = :link;",
                     [
@@ -134,6 +135,21 @@ class Note
 
     public function destroy()
     {
-        dd(request());
+        verifyCsrf(request()->get('_csrf'));
+        $link = request()->get('id');
+        $email = $_SESSION['user'];
+
+        $findNote = Database::query('SELECT email FROM notes WHERE link = ?', [$link])->fetch();
+
+        if ($findNote) {
+            $isUserNote = $findNote['email'] == $email;
+
+            if ($isUserNote) {
+                $delete = Database::query("DELETE FROM notes WHERE link = :link;", ['link' => $link]);
+                request()->navigatePrevUrl();
+            }
+        }
+
+        View::Forbidden();
     }
 }

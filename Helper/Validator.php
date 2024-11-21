@@ -29,17 +29,6 @@ class Validator
         return filter_var($value, FILTER_VALIDATE_EMAIL);
     }
     /**
-     * Validates if the given integer is greater than a specified value.
-     *
-     * @param int $value The integer value to be validated.
-     * @param int $greaterThan The value that the input must be greater than.
-     * @return bool Returns true if the value is greater, false otherwise.
-     */
-    public static function greaterThan(int $value, int $greaterThan): bool
-    {
-        return $value > $greaterThan;
-    }
-    /**
      * Validates a CSRF token against the session-stored token.
      *
      * @param string $token The CSRF token to be validated.

@@ -1,3 +1,12 @@
+<?php
+$notes = array_filter($notes, function ($item) {
+    return $item['archived'] ? 0 : 1;
+});
+
+if (empty($notes)) {
+    echo "<p class='text-center'>You dont have any notes.</p>";
+}
+?>
 <?php foreach ($notes as $note) : ?>
     <ul role="list" class="divide-y divide-gray-100">
         <li class="flex items-center justify-between gap-x-6 py-5">
@@ -22,22 +31,14 @@
                 text-sm font-semibold text-gray-900 shadow-sm 
                 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:block">Delete</button>
                 </form>
-                <?php if (!$note['archived']) : ?>
-                    <form action="<?= getRoute('Archive') ?>" method="POST">
-                        <?= csrf() ?>
-                        <button type="submit" name="id" value="<?= $note['link'] ?>"
-                            class="hidden rounded-md bg-white px-2.5 py-1.5 
+                <form action="<?= getRoute('Archive') ?>" method="POST">
+                    <?= csrf() ?>
+                    <button type="submit" name="id" value="<?= $note['link'] ?>"
+                        class="hidden rounded-md bg-white px-2.5 py-1.5 
                 text-sm font-semibold text-gray-900 shadow-sm 
                 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:block">Archive</button>
-                    </form>
-                <?php endif ?>
+                </form>
             </div>
         </li>
     </ul>
-<?php endforeach;
-
-if (empty($notes)) {
-    echo "<p class='text-center'>You dont have any notes.</p>";
-}
-
-?>
+<?php endforeach; ?>

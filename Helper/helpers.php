@@ -92,6 +92,13 @@ function logged()
     return $_SESSION['user'] ?? false;
 }
 
+
+function prevUrl()
+{
+
+    return $_SERVER['HTTP_REFERER'] ?? '';
+}
+
 /**
  * Redirects to the specified path, optionally setting a session user value.
  *

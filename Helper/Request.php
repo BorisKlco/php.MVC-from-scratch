@@ -45,4 +45,11 @@ class Request
 
         return '';
     }
+
+    public function navigatePrevUrl()
+    {
+        $url = $_SERVER['HTTP_REFERER'] ?? '';
+
+        redirect($url);
+    }
 }
