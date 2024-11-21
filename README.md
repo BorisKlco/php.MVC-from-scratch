@@ -7,7 +7,7 @@ A simple MVC framework inspired by Laravel. Built as a learning project in my fr
 - Middleware: Easily implement middleware for request handling.
 - Helper Functions:
   - Accessing $\_REQUEST data.
-  - request()->isRoute('home')
+  - request()->isRoute('home'), generate, verify csrf
   - Checking if a parameter exists with request()->has('id') or ->get('id').
 
 ```

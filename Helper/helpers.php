@@ -119,7 +119,6 @@ function redirect(string $path, string $setUserSession = null)
     header("Location: {$path}");
     exit();
 }
-
 /**
  * Dump and die, var_dump for every arg.
  */

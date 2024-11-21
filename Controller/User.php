@@ -59,7 +59,6 @@ class User
             'email' => $email,
             'password' => password_hash($password, PASSWORD_DEFAULT)
         ]);
-
         redirect('/', $email);
     }
 
